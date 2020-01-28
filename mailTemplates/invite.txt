@@ -1,0 +1,9 @@
+Hi,
+
+Your friend {{emailSelf}} invite you to join Company service, project {{siteName}}.
+
+Accept invite:
+{{link}}
+
+The AwesomeApp Team
+https://Company.com

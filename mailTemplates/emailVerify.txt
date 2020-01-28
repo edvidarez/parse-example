@@ -1,0 +1,9 @@
+Hi {{username}},
+
+Thanks for signing up for Company!
+Please confirm your account by clicking on the link below.
+
+{{link}}
+
+The Company Team
+https://Company.com
