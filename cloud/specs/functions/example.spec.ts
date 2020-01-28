@@ -8,8 +8,8 @@ import {
   stopParseServer,
 } from "../utils/MockedParse";
 
-import Example from "../../functions/Example";
 import City from "../../classes/City";
+import Example from "../../functions/Example";
 
 describe("Example CF", () => {
   let user: Parse.User;
