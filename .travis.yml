@@ -1,8 +1,8 @@
 language: node_js
 before_install:
   - sudo apt-get update
-  - nvm install 12.12.0
-  - nvm use 12.12.0
+  - nvm install v11.0.0
+  - nvm use v11.0.0
 install:
   - npm install
 script:
