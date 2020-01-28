@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "ts-node server.ts",
-    "test": "mocha --exit -r --timeout 10000 ts-node/register cloud/specs/**/*.spec.ts"
+    "test": "mocha --exit --timeout 10000 -r ts-node/register cloud/specs/**/*.spec.ts"
   },
   "author": "Edmundo Vidaña",
   "license": "ISC"
