@@ -1,22 +1,29 @@
 // tslint:disable: no-empty
 import * as express from "express";
 import * as http from "http";
-import { MongoClient } from "mongodb";
+import * as mongo from "mongodb";
 import { ParseServer } from "parse-server";
 
 let parseServerState: any = {};
+
+import * as mongoDBRunnerStart from "mongodb-runner/mocha/before";
+mongoDBRunnerStart.bind({
+  timeout() {},
+  slow() {},
+});
+import * as mongoDBRunnerStop from "mongodb-runner/mocha/after";
 const connectDB = (databaseURI: string) =>
-  MongoClient.connect(databaseURI, { useUnifiedTopology: true });
+  mongo.MongoClient.connect(databaseURI, { useUnifiedTopology: true });
 const dropDB = () => {
-  const mongoConnection: MongoClient = parseServerState.mongoConnection;
+  const mongoConnection: mongo.MongoClient = parseServerState.mongoConnection;
   return mongoConnection.db().dropDatabase();
 };
 
 async function startParseServer(parseServerOptions: any = {}) {
-  const mongodbPort = process.env.MONGODB_PORT || 27017;
+  // const mongodbPort = process.env.MONGODB_PORT || 27017;
   const {
     databaseName = "parse-test",
-    databaseURI = `mongodb://localhost:${mongodbPort}/${databaseName}`,
+    databaseURI = `mongodb://localhost/${databaseName}`,
     masterKey = "test",
     appId = "test",
     port = 30001,
@@ -24,7 +31,22 @@ async function startParseServer(parseServerOptions: any = {}) {
     serverURL = `http://localhost:${port}${mountPath}`,
   } = parseServerOptions;
 
-  const mongoConnection: MongoClient = await connectDB(databaseURI);
+  console.log("trying mongo_connect", databaseURI, "url");
+  mongo.MongoClient.connect(databaseURI, (err, client) => {
+    if (err) {
+      console.log("trying mongo_connect", databaseURI, "url");
+      console.group("Error", err);
+    } else {
+      console.log("Connected successfully to server");
+      const db = client.db(databaseName);
+
+      client.close();
+    }
+  });
+  await mongoDBRunnerStart();
+  const mongoConnection: mongo.MongoClient = await connectDB(databaseURI);
+
+  console.log("trying mongo_connect success", mongoConnection);
   parseServerOptions = Object.assign(
     {
       appId,
@@ -55,10 +77,11 @@ async function startParseServer(parseServerOptions: any = {}) {
 }
 
 async function stopParseServer() {
-  const mongoConnection: MongoClient = parseServerState.mongoConnection;
+  const mongoConnection: mongo.MongoClient = parseServerState.mongoConnection;
   mongoConnection.close();
   const httpServer: http.Server = parseServerState.httpServer;
   httpServer.close();
+  mongoDBRunnerStop();
   parseServerState = {};
   console.log("\tServer was closed");
 }

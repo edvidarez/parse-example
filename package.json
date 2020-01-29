@@ -25,12 +25,14 @@
     "@types/parse": "^2.10.13",
     "chai": "^4.2.0",
     "mocha": "^7.0.0",
-    "mongodb": "^3.4.1",
+    "mongodb-runner": "^4.8.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "ts-node server.ts",
-    "test": "mocha --exit --timeout 10000 -r ts-node/register cloud/specs/**/*.spec.ts"
+    "pretest": "mongodb-runner start",
+    "test": "mocha --exit --timeout 10000 -r ts-node/register cloud/specs/**/*.spec.ts",
+    "posttest": "mongodb-runner stop"
   },
   "author": "Edmundo Vidaña",
   "license": "ISC"

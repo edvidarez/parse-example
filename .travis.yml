@@ -1,8 +1,22 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
+env:
+  - MONGODB_VERSION=^3.6.0 MONGODB_TOPOLOGY=standalone
+  - MONGODB_VERSION=stable MONGODB_TOPOLOGY=standalone
+  - MONGODB_VERSION=unstable MONGODB_TOPOLOGY=standalone
+  - MONGODB_VERSION=^3.6.0 MONGODB_TOPOLOGY=replicaset
+  - MONGODB_VERSION=stable MONGODB_TOPOLOGY=replicaset
+  - MONGODB_VERSION=unstable MONGODB_TOPOLOGY=replicaset
+  - MONGODB_VERSION=^3.6.0 MONGODB_TOPOLOGY=cluster
+  - MONGODB_VERSION=stable MONGODB_TOPOLOGY=cluster
+  - MONGODB_VERSION=unstable MONGODB_TOPOLOGY=cluster
 before_install:
   - sudo apt-get update
   - nvm install v11.0.0
   - nvm use v11.0.0
+services: mongodb
 install:
   - npm install
 script:
