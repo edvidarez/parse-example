@@ -24,7 +24,7 @@
     "@types/node": "^13.5.0",
     "@types/parse": "^2.10.13",
     "chai": "^4.2.0",
-    "mocha": "^7.0.0",
+    "mocha": "^10.2.0",
     "mongodb-runner": "^4.8.0",
     "typescript": "^3.7.5"
   },
